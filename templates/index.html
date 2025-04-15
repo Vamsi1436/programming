@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blacknight Internet Solutions Ltd - Client Management System</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* Custom Styles */
+        .bg-primary-gradient {
+            background: linear-gradient(135deg, #04192e 0%, #0d3c61 100%);
+        }
+        
+        .card-dashboard {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card-dashboard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            opacity: 0.8;
+        }
+        
+        .hero-section {
+            padding: 6rem 0;
+            background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.8)), url('https://images.unsplash.com/photo-1586772002345-339f8042a777?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .footer {
+            background-color: #f8f9fa;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+        
+        /* Mobile responsiveness enhancements */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 3rem 0;
+                text-align: center;
+            }
+            
+            .hero-section .btn {
+                display: block;
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+            
+            .hero-section .d-flex.gap-3 {
+                flex-direction: column;
+            }
+            
+            .stat-icon {
+                font-size: 2rem;
+            }
+            
+            .display-4 {
+                font-size: 2.5rem;
+            }
+            
+            .display-6 {
+                font-size: 1.75rem;
+            }
+            
+            .card-dashboard {
+                margin-bottom: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-server me-2"></i>
+                Blacknight Internet Solutions Ltd
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/clients"><i class="fas fa-user-tie me-1"></i> Clients</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/services"><i class="fas fa-server me-1"></i> Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/subscriptions"><i class="fas fa-file-invoice-dollar me-1"></i> Subscriptions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about"><i class="fas fa-info-circle me-1"></i> About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">Client Management System</h1>
+                    <p class="lead mb-4">A comprehensive platform for managing clients, services, and subscriptions for Blacknight Internet Solutions Ltd.</p>
+                    <div class="d-flex gap-3">
+                        <a href="/clients" class="btn btn-primary px-4 py-2">Manage Clients</a>
+                        <a href="/services" class="btn btn-outline-primary px-4 py-2">View Services</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-flex justify-content-center">
+                    <div class="p-4 bg-white rounded-3 shadow-lg" style="width: 90%;">
+                        <h3 class="text-center mb-4">Quick Stats</h3>
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="card card-dashboard h-100 border-0 shadow-sm">
+                                    <div class="card-body text-center">
+                                        <div class="text-primary mb-3">
+                                            <i class="fas fa-user-tie stat-icon"></i>
+                                        </div>
+                                        <h5 class="card-title">Clients</h5>
+                                        <h2 class="display-6 fw-bold" id="clients-count">0</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-dashboard h-100 border-0 shadow-sm">
+                                    <div class="card-body text-center">
+                                        <div class="text-success mb-3">
+                                            <i class="fas fa-server stat-icon"></i>
+                                        </div>
+                                        <h5 class="card-title">Services</h5>
+                                        <h2 class="display-6 fw-bold" id="services-count">0</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-dashboard h-100 border-0 shadow-sm">
+                                    <div class="card-body text-center">
+                                        <div class="text-warning mb-3">
+                                            <i class="fas fa-file-invoice-dollar stat-icon"></i>
+                                        </div>
+                                        <h5 class="card-title">Subscriptions</h5>
+                                        <h2 class="display-6 fw-bold" id="subscriptions-count">0</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5">Key Features</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="rounded-circle bg-primary bg-opacity-10 p-3 d-inline-flex mb-3">
+                                <i class="fas fa-user-tie text-primary fa-2x"></i>
+                            </div>
+                            <h4>Client Management</h4>
+                            <p class="text-muted">Easily add, edit, and manage client information with comprehensive profiles and search capabilities.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="rounded-circle bg-success bg-opacity-10 p-3 d-inline-flex mb-3">
+                                <i class="fas fa-server text-success fa-2x"></i>
+                            </div>
+                            <h4>Service Catalog</h4>
+                            <p class="text-muted">Maintain a complete catalog of web hosting services with detailed specifications, pricing, and features.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="rounded-circle bg-warning bg-opacity-10 p-3 d-inline-flex mb-3">
+                                <i class="fas fa-file-invoice-dollar text-warning fa-2x"></i>
+                            </div>
+                            <h4>Subscription Tracking</h4>
+                            <p class="text-muted">Track client subscriptions, monitor renewals, and manage billing with an intuitive subscription system.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="p-5 text-center bg-primary-gradient text-white rounded-3 shadow">
+                <h2 class="display-5 fw-bold mb-3">Ready to get started?</h2>
+                <p class="lead mb-4">Streamline your web hosting operations with our comprehensive client management system.</p>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <a href="/clients" class="btn btn-light btn-lg px-4 me-sm-3 fw-bold">Manage Clients</a>
+                    <a href="/about" class="btn btn-outline-light btn-lg px-4">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="text-primary fw-bold">Blacknight Internet Solutions Ltd</h5>
+                    <p>Providing premium web hosting solutions and domain services for businesses across Ireland.</p>
+                </div>
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="mb-3">Contact Us</h5>
+                    <address class="mb-0">
+                        <p class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i> Unit 12A, Barrowside Business Park, Sleaty Road, Graiguecullen, Carlow, Ireland</p>
+                        <p class="mb-2"><i class="fas fa-phone me-2 text-primary"></i> <a href="tel:+35359183072" class="text-decoration-none">+353 59 918 3072</a></p>
+                        <p class="mb-2"><i class="fas fa-envelope me-2 text-primary"></i> <a href="mailto:support@blacknight.com" class="text-decoration-none">support@blacknight.com</a></p>
+                        <p class="mb-0"><i class="fas fa-clock me-2 text-primary"></i> 9:00 AM - 5:00 PM Monday to Friday</p>
+                    </address>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="/" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>Home</a></li>
+                        <li class="mb-2"><a href="/clients" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>Clients</a></li>
+                        <li class="mb-2"><a href="/services" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>Services</a></li>
+                        <li class="mb-2"><a href="/subscriptions" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>Subscriptions</a></li>
+                        <li><a href="/about" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>About</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex flex-column flex-sm-row justify-content-between">
+                <p>&copy; 2025 Blacknight Internet Solutions Ltd. All rights reserved.</p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="text-decoration-none"><i class="fab fa-facebook fa-lg"></i></a>
+                    <a href="#" class="text-decoration-none"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="#" class="text-decoration-none"><i class="fab fa-linkedin fa-lg"></i></a>
+                    <a href="#" class="text-decoration-none"><i class="fab fa-instagram fa-lg"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast container for notifications -->
+    <div id="toast-container" class="position-fixed bottom-0 end-0 p-3"></div>
+
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Application JavaScript -->
+    <script src="/static/js/utils.js"></script>
+    <script src="/static/js/validation.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

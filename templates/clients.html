@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blacknight Internet Solutions Ltd - Client Management</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        .table-header {
+            cursor: pointer;
+        }
+        
+        .sort-icon {
+            display: inline-block;
+            width: 1em;
+            margin-left: 0.2em;
+            opacity: 0.5;
+        }
+        
+        .client-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .footer {
+            background-color: #f8f9fa;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+        
+        .modal-xl {
+            max-width: 90%;
+        }
+        
+        /* Mobile responsiveness enhancements */
+        @media (max-width: 768px) {
+            .table-responsive {
+                font-size: 0.875rem;
+            }
+            
+            .client-avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 0.75rem;
+            }
+            
+            .btn-group-sm > .btn {
+                padding: 0.25rem 0.4rem;
+                font-size: 0.75rem;
+            }
+            
+            .table td, .table th {
+                padding: 0.5rem;
+            }
+            
+            .modal-footer, .modal-header {
+                padding: 0.75rem;
+            }
+            
+            .modal-body {
+                padding: 1rem;
+            }
+            
+            .modal-title {
+                font-size: 1.25rem;
+            }
+            
+            .input-group {
+                margin-bottom: 1rem;
+            }
+            
+            #status-filter, #client-sort {
+                margin-bottom: 1rem;
+            }
+        }
+        
+        /* Custom scrollbar for tables on mobile */
+        @media (max-width: 576px) {
+            .table-responsive::-webkit-scrollbar {
+                height: 6px;
+            }
+            
+            .table-responsive::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 10px;
+            }
+            
+            .table-responsive::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 10px;
+            }
+            
+            .table-responsive::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-server me-2"></i>
+                Blacknight Internet Solutions Ltd
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/clients"><i class="fas fa-user-tie me-1"></i> Clients</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/services"><i class="fas fa-server me-1"></i> Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/subscriptions"><i class="fas fa-file-invoice-dollar me-1"></i> Subscriptions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about"><i class="fas fa-info-circle me-1"></i> About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-user-tie text-primary me-2"></i> Client Management</h2>
+            <button id="add-client-btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#clientModal">
+                <i class="fas fa-plus me-1"></i> Add New Client
+            </button>
+        </div>
+
+        <!-- Search & Filter -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" id="client-search" class="form-control" placeholder="Search clients by name, email, or ID...">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select id="status-filter" class="form-select">
+                    <option value="">Filter by Status</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                    <option value="Suspended">Suspended</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select id="client-sort" class="form-select">
+                    <option value="last_name-asc">Sort by Last Name (A-Z)</option>
+                    <option value="last_name-desc">Sort by Last Name (Z-A)</option>
+                    <option value="date_registered-desc">Sort by Date Registered (Newest)</option>
+                    <option value="date_registered-asc">Sort by Date Registered (Oldest)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Clients Table -->
+        <div class="card shadow-sm">
+            <div class="table-responsive">
+                <table id="clients-table" class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="table-header" data-sort="client_id">ID <span class="sort-icon">⌄</span></th>
+                            <th class="table-header" data-sort="last_name">Client <span class="sort-icon">⌄</span></th>
+                            <th class="table-header" data-sort="email">Email <span class="sort-icon">⌄</span></th>
+                            <th class="table-header" data-sort="phone">Phone <span class="sort-icon">⌄</span></th>
+                            <th class="table-header" data-sort="company_name">Company <span class="sort-icon">⌄</span></th>
+                            <th class="table-header" data-sort="date_registered">Registered <span class="sort-icon">⌄</span></th>
+                            <th class="table-header" data-sort="status">Status <span class="sort-icon">⌄</span></th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clients-table-body">
+                        <!-- Client rows will be loaded here via JavaScript -->
+                        <tr>
+                            <td colspan="8" class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-2">Loading clients...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center bg-light">
+                <p class="mb-0"><span id="total-clients">0</span> clients found</p>
+                <nav aria-label="Clients pagination">
+                    <ul class="pagination mb-0" id="clients-pagination">
+                        <!-- Pagination will be generated here -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Client Modal -->
+    <div class="modal fade" id="clientModal" tabindex="-1" aria-labelledby="clientModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="clientModalLabel">Add New Client</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="client-form">
+                        <input type="hidden" id="client-id">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="first-name" class="form-label">First Name*</label>
+                                <input type="text" class="form-control" id="first-name" required>
+                                <div class="invalid-feedback">Please enter a first name.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="last-name" class="form-label">Last Name*</label>
+                                <input type="text" class="form-control" id="last-name" required>
+                                <div class="invalid-feedback">Please enter a last name.</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email Address*</label>
+                                <input type="email" class="form-control" id="email" required>
+                                <div class="invalid-feedback">Please enter a valid email address.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label">Phone Number*</label>
+                                <input type="tel" class="form-control" id="phone" required>
+                                <div class="invalid-feedback">Please enter a valid phone number.</div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="company-name" class="form-label">Company Name</label>
+                                <input type="text" class="form-control" id="company-name">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="city" class="form-label">City</label>
+                                <input type="text" class="form-control" id="city">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="country" class="form-label">Country</label>
+                                <input type="text" class="form-control" id="country" value="Ireland">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="status" class="form-label">Status</label>
+                                <select class="form-select" id="status">
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                    <option value="Suspended">Suspended</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="notes" class="form-label">Notes</label>
+                            <textarea class="form-control" id="notes" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-client-btn">Save Client</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Client Modal -->
+    <div class="modal fade" id="viewClientModal" tabindex="-1" aria-labelledby="viewClientModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewClientModalLabel">Client Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4 border-end">
+                            <div class="text-center mb-4">
+                                <div class="client-avatar bg-primary mx-auto mb-3" style="width: 100px; height: 100px; font-size: 2rem;" id="client-avatar">
+                                    JD
+                                </div>
+                                <h4 id="client-full-name">John Doe</h4>
+                                <p class="text-muted" id="client-id-display">BK0001</p>
+                                <div class="mt-3" id="client-badge-container">
+                                    <span class="badge bg-success">Active</span>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <h5>Contact Information</h5>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-envelope text-primary me-2"></i> <span id="client-email-display">john.doe@example.com</span></li>
+                                    <li class="mb-2"><i class="fas fa-phone text-primary me-2"></i> <span id="client-phone-display">+353 85 123 4567</span></li>
+                                    <li class="mb-2"><i class="fas fa-building text-primary me-2"></i> <span id="client-company-display">Example Company Ltd</span></li>
+                                    <li class="mb-2"><i class="fas fa-map-marker-alt text-primary me-2"></i> <span id="client-address-display">123 Main St, Dublin, Ireland</span></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5>Account Information</h5>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><i class="fas fa-calendar-alt text-primary me-2"></i> Registered: <span id="client-registered-display">2023-01-15</span></li>
+                                    <li class="mb-2"><i class="fas fa-clipboard-list text-primary me-2"></i> Status: <span id="client-status-display">Active</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <ul class="nav nav-tabs" id="clientDetailsTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="subscriptions-tab" data-bs-toggle="tab" data-bs-target="#subscriptions-content" type="button" role="tab" aria-controls="subscriptions-content" aria-selected="true">
+                                        <i class="fas fa-file-invoice me-1"></i> Subscriptions
+                                    </button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes-content" type="button" role="tab" aria-controls="notes-content" aria-selected="false">
+                                        <i class="fas fa-sticky-note me-1"></i> Notes
+                                    </button>
+                                </li>
+                            </ul>
+                            <div class="tab-content mt-3">
+                                <div class="tab-pane fade show active" id="subscriptions-content" role="tabpanel" aria-labelledby="subscriptions-tab">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h5 class="mb-0">Client Subscriptions</h5>
+                                        <button type="button" class="btn btn-sm btn-primary" id="add-subscription-for-client">
+                                            <i class="fas fa-plus me-1"></i> Add Subscription
+                                        </button>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-sm">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Service</th>
+                                                    <th>Start Date</th>
+                                                    <th>End Date</th>
+                                                    <th>Amount</th>
+                                                    <th>Status</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="client-subscriptions-table">
+                                                <tr>
+                                                    <td colspan="7" class="text-center py-3">Loading subscriptions...</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="notes-content" role="tabpanel" aria-labelledby="notes-tab">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Client Notes</h5>
+                                            <div id="client-notes-display" class="card-text">
+                                                <p class="text-muted fst-italic">No notes available for this client.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-outline-primary" id="edit-client-btn">
+                            <i class="fas fa-edit me-1"></i> Edit
+                        </button>
+                        <button type="button" class="btn btn-outline-danger" id="delete-client-btn">
+                            <i class="fas fa-trash-alt me-1"></i> Delete
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteConfirmModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="delete-confirm-message">
+                    Are you sure you want to delete this client? This action cannot be undone.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirm-delete-btn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast container for notifications -->
+    <div id="toast-container" class="position-fixed bottom-0 end-0 p-3"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="text-primary fw-bold">Blacknight Internet Solutions Ltd</h5>
+                    <p>Providing premium web hosting solutions and domain services for businesses across Ireland.</p>
+                </div>
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="mb-3">Contact Us</h5>
+                    <address class="mb-0">
+                        <p class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i> Unit 12A, Barrowside Business Park, Sleaty Road, Graiguecullen, Carlow, Ireland</p>
+                        <p class="mb-2"><i class="fas fa-phone me-2 text-primary"></i> <a href="tel:+35359183072" class="text-decoration-none">+353 59 918 3072</a></p>
+                        <p class="mb-2"><i class="fas fa-envelope me-2 text-primary"></i> <a href="mailto:support@blacknight.com" class="text-decoration-none">support@blacknight.com</a></p>
+                        <p class="mb-0"><i class="fas fa-clock me-2 text-primary"></i> 9:00 AM - 5:00 PM Monday to Friday</p>
+                    </address>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="/" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>Home</a></li>
+                        <li class="mb-2"><a href="/clients" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>Clients</a></li>
+                        <li class="mb-2"><a href="/services" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>Services</a></li>
+                        <li class="mb-2"><a href="/subscriptions" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>Subscriptions</a></li>
+                        <li><a href="/about" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>About</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex flex-column flex-sm-row justify-content-between">
+                <p>&copy; 2025 Blacknight Internet Solutions Ltd. All rights reserved.</p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="text-decoration-none"><i class="fab fa-facebook fa-lg"></i></a>
+                    <a href="#" class="text-decoration-none"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="#" class="text-decoration-none"><i class="fab fa-linkedin fa-lg"></i></a>
+                    <a href="#" class="text-decoration-none"><i class="fab fa-instagram fa-lg"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Application JavaScript -->
+    <script src="/static/js/utils.js"></script>
+    <script src="/static/js/validation.js"></script>
+    <script src="/static/js/clients.js"></script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blacknight Internet Solutions Ltd - About</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        .footer {
+            background-color: #f8f9fa;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+        
+        .hero-section {
+            padding: 6rem 0;
+            background-image: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.8)), url('https://images.unsplash.com/photo-1586772002345-339f8042a777?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .team-member {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .team-member img {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 3rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background-color: #dee2e6;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px dashed #dee2e6;
+        }
+        
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+        
+        .timeline-marker {
+            position: absolute;
+            left: -3rem;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #0d6efd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+        
+        /* Mobile responsiveness enhancements */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 3rem 0;
+                text-align: center;
+            }
+            
+            .display-4 {
+                font-size: 2.5rem;
+            }
+            
+            .timeline {
+                padding-left: 2rem;
+            }
+            
+            .timeline-marker {
+                left: -2rem;
+                width: 20px;
+                height: 20px;
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-server me-2"></i>
+                Blacknight Internet Solutions Ltd
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/clients"><i class="fas fa-user-tie me-1"></i> Clients</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/services"><i class="fas fa-server me-1"></i> Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/subscriptions"><i class="fas fa-file-invoice-dollar me-1"></i> Subscriptions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/about"><i class="fas fa-info-circle me-1"></i> About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-4">About Our Company</h1>
+            <p class="lead mb-4 mx-auto" style="max-width: 700px;">Blacknight Internet Solutions Ltd is Ireland's leading web hosting company and domain registrar, providing premium web services to businesses across Ireland and Europe since 2003.</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <div class="row g-5">
+            <div class="col-lg-8">
+                <h2 class="mb-4">Our Story</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h5>2003 - Founded in Carlow</h5>
+                        <p>Blacknight was established in Carlow, Ireland by Michele Neylon and Paul Kelly with a mission to provide reliable hosting services to Irish businesses.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <i class="fas fa-certificate"></i>
+                        </div>
+                        <h5>2007 - ICANN Accreditation</h5>
+                        <p>Blacknight became the first and only Irish registrar to be accredited by ICANN (Internet Corporation for Assigned Names and Numbers).</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h5>2013 - New Headquarters</h5>
+                        <p>Relocated to our current headquarters in Barrowside Business Park, Sleaty Road, Graiguecullen, Carlow, with expanded facilities and data centers.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <h5>2018 - Industry Recognition</h5>
+                        <p>Received multiple industry awards for service excellence, including "Best Hosting Provider" at the Irish Web Awards.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h5>2023 - European Expansion</h5>
+                        <p>Expanded our services to multiple European countries with new data center locations and enhanced service offerings.</p>
+                    </div>
+                </div>
+                
+                <div class="mt-5">
+                    <h2 class="mb-4">Our Mission</h2>
+                    <p>At Blacknight, we're committed to providing reliable, secure, and innovative web hosting solutions that empower businesses of all sizes to establish and grow their online presence. We believe in:</p>
+                    <ul class="list-group list-group-flush mb-4">
+                        <li class="list-group-item bg-transparent">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Reliability:</strong> Maintaining industry-leading uptime and performance standards
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Innovation:</strong> Continuously improving our technology and service offerings
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Customer Focus:</strong> Delivering exceptional customer support and satisfaction
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Sustainability:</strong> Operating in an environmentally responsible manner
+                        </li>
+                        <li class="list-group-item bg-transparent">
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            <strong>Community:</strong> Supporting the local and global tech community
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title">Company Facts</h3>
+                        <ul class="list-unstyled">
+                            <li class="mb-3 d-flex">
+                                <div class="bg-primary bg-opacity-10 p-2 rounded me-3">
+                                    <i class="fas fa-users text-primary"></i>
+                                </div>
+                                <div>
+                                    <strong>Employees</strong>
+                                    <p class="mb-0 text-muted">85+ team members</p>
+                                </div>
+                            </li>
+                            <li class="mb-3 d-flex">
+                                <div class="bg-success bg-opacity-10 p-2 rounded me-3">
+                                    <i class="fas fa-server text-success"></i>
+                                </div>
+                                <div>
+                                    <strong>Servers</strong>
+                                    <p class="mb-0 text-muted">1,000+ servers managed</p>
+                                </div>
+                            </li>
+                            <li class="mb-3 d-flex">
+                                <div class="bg-info bg-opacity-10 p-2 rounded me-3">
+                                    <i class="fas fa-globe text-info"></i>
+                                </div>
+                                <div>
+                                    <strong>Domains</strong>
+                                    <p class="mb-0 text-muted">250,000+ domains registered</p>
+                                </div>
+                            </li>
+                            <li class="mb-3 d-flex">
+                                <div class="bg-warning bg-opacity-10 p-2 rounded me-3">
+                                    <i class="fas fa-headset text-warning"></i>
+                                </div>
+                                <div>
+                                    <strong>Support</strong>
+                                    <p class="mb-0 text-muted">24/7 customer support</p>
+                                </div>
+                            </li>
+                            <li class="d-flex">
+                                <div class="bg-danger bg-opacity-10 p-2 rounded me-3">
+                                    <i class="fas fa-medal text-danger"></i>
+                                </div>
+                                <div>
+                                    <strong>Experience</strong>
+                                    <p class="mb-0 text-muted">20+ years in business</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title">Contact Us</h3>
+                        <address>
+                            <p class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i> Unit 12A, Barrowside Business Park, Sleaty Road, Graiguecullen, Carlow, Ireland</p>
+                            <p class="mb-2"><i class="fas fa-phone me-2 text-primary"></i> <a href="tel:+35359183072" class="text-decoration-none">+353 59 918 3072</a></p>
+                            <p class="mb-2"><i class="fas fa-envelope me-2 text-primary"></i> <a href="mailto:support@blacknight.com" class="text-decoration-none">support@blacknight.com</a></p>
+                            <p class="mb-0"><i class="fas fa-clock me-2 text-primary"></i> 9:00 AM - 5:00 PM Monday to Friday</p>
+                        </address>
+                        <div class="mt-3">
+                            <h5>Follow Us</h5>
+                            <div class="d-flex gap-3 mt-2">
+                                <a href="#" class="text-decoration-none"><i class="fab fa-facebook fa-lg"></i></a>
+                                <a href="#" class="text-decoration-none"><i class="fab fa-twitter fa-lg"></i></a>
+                                <a href="#" class="text-decoration-none"><i class="fab fa-linkedin fa-lg"></i></a>
+                                <a href="#" class="text-decoration-none"><i class="fab fa-instagram fa-lg"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Leadership Team -->
+        <div class="mt-5">
+            <h2 class="text-center mb-5">Leadership Team</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="team-member">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt="Michele Neylon" class="shadow">
+                        <h4>Michele Neylon</h4>
+                        <p class="text-muted">CEO & Co-founder</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="#" class="text-decoration-none"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-decoration-none"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="team-member">
+                        <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt="Paul Kelly" class="shadow">
+                        <h4>Paul Kelly</h4>
+                        <p class="text-muted">CTO & Co-founder</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="#" class="text-decoration-none"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-decoration-none"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="team-member">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=688&q=80" alt="Sarah O'Connor" class="shadow">
+                        <h4>Sarah O'Connor</h4>
+                        <p class="text-muted">Chief Operations Officer</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <a href="#" class="text-decoration-none"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-decoration-none"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="p-5 text-center">
+                <h2 class="display-5 fw-bold mb-3">Join Thousands of Happy Customers</h2>
+                <p class="lead mb-4">Discover why businesses across Ireland trust Blacknight for their web hosting needs.</p>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <a href="/services" class="btn btn-primary btn-lg px-4 me-sm-3">View Our Services</a>
+                    <a href="/clients" class="btn btn-outline-primary btn-lg px-4">Manage Clients</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="text-primary fw-bold">Blacknight Internet Solutions Ltd</h5>
+                    <p>Providing premium web hosting solutions and domain services for businesses across Ireland.</p>
+                </div>
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="mb-3">Contact Us</h5>
+                    <address class="mb-0">
+                        <p class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i> Unit 12A, Barrowside Business Park, Sleaty Road, Graiguecullen, Carlow, Ireland</p>
+                        <p class="mb-2"><i class="fas fa-phone me-2 text-primary"></i> <a href="tel:+35359183072" class="text-decoration-none">+353 59 918 3072</a></p>
+                        <p class="mb-2"><i class="fas fa-envelope me-2 text-primary"></i> <a href="mailto:support@blacknight.com" class="text-decoration-none">support@blacknight.com</a></p>
+                        <p class="mb-0"><i class="fas fa-clock me-2 text-primary"></i> 9:00 AM - 5:00 PM Monday to Friday</p>
+                    </address>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="/" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>Home</a></li>
+                        <li class="mb-2"><a href="/clients" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>Clients</a></li>
+                        <li class="mb-2"><a href="/services" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>Services</a></li>
+                        <li class="mb-2"><a href="/subscriptions" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>Subscriptions</a></li>
+                        <li><a href="/about" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>About</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex flex-column flex-sm-row justify-content-between">
+                <p>&copy; 2025 Blacknight Internet Solutions Ltd. All rights reserved.</p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="text-decoration-none"><i class="fab fa-facebook fa-lg"></i></a>
+                    <a href="#" class="text-decoration-none"><i class="fab fa-twitter fa-lg"></i></a>
+                    <a href="#" class="text-decoration-none"><i class="fab fa-linkedin fa-lg"></i></a>
+                    <a href="#" class="text-decoration-none"><i class="fab fa-instagram fa-lg"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

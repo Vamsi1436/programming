@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Services - Blacknight Internet Solutions Ltd</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        .table-header {
+            cursor: pointer;
+        }
+        
+        .sort-icon {
+            display: inline-block;
+            width: 1em;
+            margin-left: 0.2em;
+            opacity: 0.5;
+        }
+        
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .category-hosting { background-color: #4e73df; }
+        .category-domain { background-color: #1cc88a; }
+        .category-vps { background-color: #f6c23e; }
+        .category-dedicated { background-color: #e74a3b; }
+        .category-email { background-color: #36b9cc; }
+        .category-security { background-color: #6f42c1; }
+        
+        .footer {
+            background-color: #f8f9fa;
+            padding: 3rem 0;
+            margin-top: 3rem;
+        }
+        
+        .badge.bg-success-soft {
+            color: #198754;
+            background-color: rgba(25, 135, 84, 0.1);
+        }
+        
+        .badge.bg-danger-soft {
+            color: #dc3545;
+            background-color: rgba(220, 53, 69, 0.1);
+        }
+        
+        /* Mobile responsiveness enhancements */
+        @media (max-width: 768px) {
+            .table-responsive {
+                font-size: 0.875rem;
+            }
+            
+            .service-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1.25rem;
+            }
+            
+            .btn-group-sm > .btn {
+                padding: 0.25rem 0.4rem;
+                font-size: 0.75rem;
+            }
+            
+            .table td, .table th {
+                padding: 0.5rem;
+            }
+            
+            .modal-footer, .modal-header {
+                padding: 0.75rem;
+            }
+            
+            .modal-body {
+                padding: 1rem;
+            }
+            
+            .modal-title {
+                font-size: 1.25rem;
+            }
+            
+            .form-control, .form-select {
+                font-size: 0.875rem;
+            }
+            
+            .card-title {
+                font-size: 1rem;
+            }
+            
+            .col-md-4.col-lg-3 {
+                padding: 0 0.5rem;
+            }
+            
+            .subscription-card {
+                margin-bottom: 1rem;
+            }
+            
+            #service-search, #category-filter, #active-filter, #service-sort {
+                margin-bottom: 0.75rem;
+            }
+            
+            #table-view-btn, #grid-view-btn {
+                padding: 0.375rem 0.5rem;
+                font-size: 0.875rem;
+            }
+        }
+        
+        /* Improve grid view on mobile */
+        @media (max-width: 576px) {
+            #services-grid {
+                padding: 0 0.5rem;
+            }
+            
+            #services-grid .card-body {
+                padding: 1rem;
+            }
+            
+            #services-grid .service-icon {
+                margin-bottom: 0.5rem;
+                width: 48px;
+                height: 48px;
+            }
+            
+            #services-grid .card-title {
+                font-size: 1.125rem;
+                margin-bottom: 0.25rem;
+            }
+            
+            #services-grid .card-text {
+                margin-bottom: 0.5rem;
+                font-size: 0.8125rem;
+            }
+            
+            #services-grid .btn {
+                font-size: 0.75rem;
+                padding: 0.25rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-server me-2"></i>
+                Blacknight Internet Solutions Ltd
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/clients"><i class="fas fa-user-tie me-1"></i> Clients</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/services"><i class="fas fa-server me-1"></i> Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/subscriptions"><i class="fas fa-file-invoice-dollar me-1"></i> Subscriptions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about"><i class="fas fa-info-circle me-1"></i> About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-server text-primary me-2"></i> Service Management</h2>
+            <button id="add-service-btn" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#serviceModal">
+                <i class="fas fa-plus me-1"></i> Add New Service
+            </button>
+        </div>
+
+        <!-- Search & Filter -->
+        <div class="row mb-4">
+            <div class="col-md-5">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" id="service-search" class="form-control" placeholder="Search services by name, ID, or description...">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <select id="category-filter" class="form-select">
+                    <option value="">All Categories</option>
+                    <option value="Web Hosting">Web Hosting</option>
+                    <option value="VPS">VPS</option>
+                    <option value="Dedicated Server">Dedicated Server</option>
+                    <option value="Domain Registration">Domain Registration</option>
+                    <option value="Email Hosting">Email Hosting</option>
+                    <option value="Security & SSL">Security & SSL</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select id="active-filter" class="form-select">
+                    <option value="">All Status</option>
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select id="service-sort" class="form-select">
+                    <option value="name-asc">Sort by Name (A-Z)</option>
+                    <option value="name-desc">Sort by Name (Z-A)</option>
+                    <option value="price-asc">Sort by Price (Low-High)</option>
+                    <option value="price-desc">Sort by Price (High-Low)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Services Table -->
+        <div class="card shadow-sm">
+            <div class="table-responsive">
+                <table id="services-table" class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="table-header" data-sort="service_id">ID <span class="sort-icon">⌄</span></th>
+                            <th class="table-header" data-sort="name">Service <span class="sort-icon">⌄</span></th>
+                            <th class="table-header" data-sort="category">Category <span class="sort-icon">⌄</span></th>
+                            <th class="table-header" data-sort="description">Description <span class="sort-icon">⌄</span></th>
+                            <th class="table-header" data-sort="price">Price <span class="sort-icon">⌄</span></th>
+                            <th class="table-header" data-sort="billing_cycle">Billing <span class="sort-icon">⌄</span></th>
+                            <th class="table-header" data-sort="is_active">Status <span class="sort-icon">⌄</span></th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="services-table-body">
+                        <!-- Service rows will be loaded here via JavaScript -->
+                        <tr>
+                            <td colspan="8" class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                <p class="mt-2">Loading services...</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center bg-light">
+                <p class="mb-0"><span id="total-services">0</span> services found</p>
+                <nav aria-label="Services pagination">
+                    <ul class="pagination mb-0" id="services-pagination">
+                        <!-- Pagination will be generated here -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Services Grid View (Alternative) -->
+        <div class="mt-4 mb-2 d-flex justify-content-between align-items-center">
+            <h5>Featured Services</h5>
+            <div class="btn-group" role="group" aria-label="View Switcher">
+                <button type="button" class="btn btn-outline-primary active" id="table-view-btn">
+                    <i class="fas fa-table"></i> Table
+                </button>
+                <button type="button" class="btn btn-outline-primary" id="grid-view-btn">
+                    <i class="fas fa-th-large"></i> Grid
+                </button>
+            </div>
+        </div>
+        <div class="row g-4 mt-1" id="services-grid" style="display: none;">
+            <!-- Service cards will be loaded here via JavaScript -->
+            <div class="col-12 text-center py-4">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading services...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Modal -->
+    <div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="serviceModalLabel">Add New Service</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="service-form">
+                        <input type="hidden" id="service-id">
+                        <div class="row mb-3">
+                            <div class="col-md-8">
+                                <label for="service-name" class="form-label">Service Name*</label>
+                                <input type="text" class="form-control" id="service-name" required>
+                                <div class="invalid-feedback">Please enter a service name.</div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="service-category" class="form-label">Category*</label>
+                                <select class="form-select" id="service-category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="Web Hosting">Web Hosting</option>
+                                    <option value="VPS">VPS</option>
+                                    <option value="Dedicated Server">Dedicated Server</option>
+                                    <option value="Domain Registration">Domain Registration</option>
+                                    <option value="Email Hosting">Email Hosting</option>
+                                    <option value="Security & SSL">Security & SSL</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a category.</div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="service-description" class="form-label">Description*</label>
+                            <textarea class="form-control" id="service-description" rows="3" required></textarea>
+                            <div class="invalid-feedback">Please enter a service description.</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="service-price" class="form-label">Price (EUR)*</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">€</span>
+                                    <input type="number" class="form-control" id="service-price" step="0.01" min="0" required>
+                                </div>
+                                <div class="invalid-feedback">Please enter a valid price.</div>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="service-billing-cycle" class="form-label">Billing Cycle*</label>
+                                <select class="form-select" id="service-billing-cycle" required>
+                                    <option value="Monthly">Monthly</option>
+                                    <option value="Quarterly">Quarterly</option>
+                                    <option value="Semi-Annually">Semi-Annually</option>
+                                    <option value="Annually">Annually</option>
+                                    <option value="Biennially">Biennially</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="service-active" class="form-label">Status</label>
+                                <div class="form-check form-switch mt-2">
+                                    <input class="form-check-input" type="checkbox" id="service-active" checked>
+                                    <label class="form-check-label" for="service-active">Active</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="service-features" class="form-label">Features (JSON format)</label>
+                            <textarea class="form-control" id="service-features" rows="5" placeholder='{"storage": "10GB", "bandwidth": "Unlimited", "databases": 5, "email_accounts": 10}'></textarea>
+                            <div class="form-text">Enter service features in JSON format. This will be used to display features in detail view.</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save-service-btn">Save Service</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- View Service Modal -->
+    <div class="modal fade" id="viewServiceModal" tabindex="-1" aria-labelledby="viewServiceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewServiceModalLabel">Service Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4 text-center border-end">
+                            <div id="view-service-icon" class="service-icon mx-auto category-hosting">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <h4 id="view-service-name" class="mt-3">Basic Web Hosting</h4>
+                            <p class="text-muted" id="view-service-id">SRV001</p>
+                            <div class="badge bg-success-soft mb-3" id="view-service-status">Active</div>
+                            <div class="price-tag">
+                                <h3 class="text-primary" id="view-service-price">€9.99</h3>
+                                <p class="text-muted" id="view-service-billing">per month</p>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <h5>Description</h5>
+                            <p id="view-service-description">A reliable web hosting service with all the essential features for small websites and blogs.</p>
+                            
+                            <h5 class="mt-4">Category</h5>
+                            <p id="view-service-category">Web Hosting</p>
+                            
+                            <h5 class="mt-4">Features</h5>
+                            <div id="view-service-features-container">
+                                <ul class="list-group list-group-flush" id="view-service-features">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Storage
+                                        <span>10GB</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Bandwidth
+                                        <span>Unlimited</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Databases
+                                        <span>5</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        Email Accounts
+                                        <span>10</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <h5 class="mt-4">Subscriptions</h5>
+                            <p id="view-service-subscriptions-count">Current subscribers: 23</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="edit-service-btn">Edit Service</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteServiceModal" tabindex="-1" aria-labelledby="deleteServiceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteServiceModalLabel">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this service? This action cannot be undone.</p>
+                    <p class="text-danger"><strong>Warning:</strong> Deleting a service that has active subscriptions is not allowed.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirm-delete-service-btn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="text-primary fw-bold">Blacknight Internet Solutions Ltd</h5>
+                    <p>Providing premium web hosting solutions and domain services for businesses across Ireland.</p>
+                </div>
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="mb-3">Contact Us</h5>
+                    <address class="mb-0">
+                        <p class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i> Unit 12A, Barrowside Business Park, Sleaty Road, Graiguecullen, Carlow, Ireland</p>
+                        <p class="mb-2"><i class="fas fa-phone me-2 text-primary"></i> <a href="tel:+35359183072" class="text-decoration-none">+353 59 918 3072</a></p>
+                        <p class="mb-2"><i class="fas fa-envelope me-2 text-primary"></i> <a href="mailto:support@blacknight.com" class="text-decoration-none">support@blacknight.com</a></p>
+                    </address>
+                </div>
+                <div class="col-lg-4">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="/" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>Home</a></li>
+                        <li class="mb-2"><a href="/clients" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>Clients</a></li>
+                        <li class="mb-2"><a href="/services" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>Services</a></li>
+                        <li class="mb-2"><a href="/subscriptions" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>Subscriptions</a></li>
+                        <li><a href="/about" class="text-decoration-none"><i class="fas fa-chevron-right me-2 small text-primary"></i>About</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex flex-column flex-sm-row justify-content-between">
+                <p>&copy; 2025 Blacknight Internet Solutions Ltd. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast container for notifications -->
+    <div id="toast-container" class="position-fixed bottom-0 end-0 p-3"></div>
+
+    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Application JavaScript -->
+    <script src="/static/js/utils.js"></script>
+    <script src="/static/js/validation.js"></script>
+    <script src="/static/js/app.js"></script>
+    <script src="/static/js/services.js"></script>
+</body>
+</html>
