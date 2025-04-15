@@ -1,0 +1,54 @@
+[
+  {
+    "service_id": "SVC1001",
+    "name": "Basic Web Hosting",
+    "category": "Web Hosting",
+    "description": "Entry-level hosting package with 10GB storage",
+    "price": 9.99,
+    "billing_cycle": "Monthly",
+    "is_active": true,
+    "features": {
+      "storage": "10GB",
+      "bandwidth": "Unlimited",
+      "domains": 1
+    },
+    "date_created": "2024-01-01"
+  },
+  {
+    "service_id": "SVC1002",
+    "name": "SSL Certificate",
+    "category": "Security",
+    "description": "Standard SSL certificate",
+    "price": 29.99,
+    "billing_cycle": "Annually",
+    "is_active": true,
+    "features": {
+      "type": "Domain Validation",
+      "warranty": "$10,000"
+    },
+    "date_created": "2024-01-01"
+  },
+  {
+    "service_id": "SVC1003",
+    "name": "Dummy Service 3",
+    "category": "Dummy Category",
+    "description": "This is a dummy service entry.",
+    "price": 0.00,
+    "billing_cycle": "Monthly",
+    "is_active": false,
+    "features": {},
+    "date_created": "2024-01-01"
+  },
+  {
+    "service_id": "SVC1004",
+    "name": "Dummy Service 4",
+    "category": "Dummy Category",
+    "description": "This is a dummy service entry.",
+    "price": 0.00,
+    "billing_cycle": "Monthly",
+    "is_active": false,
+    "features": {},
+    "date_created": "2024-01-01"
+  }
+
+]
